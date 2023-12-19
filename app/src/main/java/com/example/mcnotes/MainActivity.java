@@ -29,10 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_NOTE_COUNT = "NoteCount";
     private LinearLayout notesContainer;
     private List<Note> noteList;
-
+    private DatabasHelper userDb= new DatabasHelper(MainActivity.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveNote() {
+
         EditText titleEditText = findViewById(R.id.titleEditText);
         EditText contentEditText = findViewById(R.id.contentEditText);
 
@@ -84,13 +84,14 @@ public class MainActivity extends AppCompatActivity {
         String content = contentEditText.getText().toString();
 
 
+
         if (!title.isEmpty() && !content.isEmpty()) {
+            userDb.addNote(title.trim(),content.trim());
             Note note = new Note();
             note.setTitle(title);
             note.setContent(content);
             noteList.add(note);
             saveNotesToPreferences();
-
             createNoteView(note);
             clearInputFields();
         }
